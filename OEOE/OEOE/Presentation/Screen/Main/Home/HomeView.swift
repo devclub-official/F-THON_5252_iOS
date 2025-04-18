@@ -10,35 +10,35 @@ import SwiftUI
 struct HomeView: View {
     @EnvironmentObject var appState: AppState
     @StateObject var viewModel: HomeViewModel
-   
+
     var body: some View {
-        VStack(spacing: 30) {
+        VStack(spacing: 45) {
             Text(viewModel.currentAddress)
                 .font(.headline)
-//            Text("현재 시각").font(.subheadline)
-            VStack {
-                if let entry = viewModel.forecastEntry.first {
-                    WeatherCardView(entry: entry)
+
+            if let entry = viewModel.forecastEntry.first {
+                WeatherCardView(entry: entry)
+            }
+
+            // 추천 코디 리스트
+            VStack(alignment: .leading, spacing: 12) {
+                ForEach(viewModel.outfitRecommendations.indices, id: \.self) { index in
+                    let outfit = viewModel.outfitRecommendations[index]
+                    HStack(spacing: 8) {
+                        Text("\(index + 1)위")
+                            .bold()
+                        ForEach(outfit, id: \.self) { item in
+                            Text(item.displayName)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 4)
+                                .background(Color.gray.opacity(0.1))
+                                .cornerRadius(6)
+                        }
+                    }
                 }
             }
-            .onAppear {
-
-                viewModel.homeInit()
-            }
-
-                 
-            Button {
-                appState.changeTab(.ai)
-            } label: {
-                Text("AI에게 옷추천 받기")
-                    .foregroundStyle(Color.black)
-            }
-            .padding()
-            .border(Color.red)
-         
+            .padding(.top, 10)
         }
+        .padding()
     }
-    
 }
-
-
