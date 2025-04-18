@@ -11,6 +11,7 @@ import Combine
 
 final class AppState: ObservableObject {
     @Published var selectedTab: TabType = .home
+    @Published var isOnboarding: Bool = false
     
     
     init() {}
