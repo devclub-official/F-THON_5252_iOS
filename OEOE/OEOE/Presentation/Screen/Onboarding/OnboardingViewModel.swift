@@ -17,7 +17,7 @@ class OnboardingViewModel: ObservableObject {
     
     @Published var gender: String = ""
     @Published var age: String = ""
-    let fashionStyles = ["캐주얼", "미니멀", "스트릿", "빈티지", "로맨틱", "시크", "댄디"]
+    let fashionStyles = FashionStyleType.allCases.map({ $0.displayName })
 
     init() {
         loadInitialMessages()

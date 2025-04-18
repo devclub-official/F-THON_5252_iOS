@@ -20,10 +20,17 @@ struct MainTabView: View {
             
             AIView(viewModel: AIViewModel())
                 .tabItem {
-                    Image(systemName: "person.fill")
+                    Image(systemName: "sparkles")
                     Text(TabType.ai.title)
                 }
                 .tag(TabType.ai)
+            
+            MyPageView(viewModel: MyPageViewModel())
+                .tabItem {
+                    Image(systemName: "person.fill")
+                    Text(TabType.my.title)
+                }
+                .tag(TabType.my)
         }
     }
 }
