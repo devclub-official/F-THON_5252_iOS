@@ -10,23 +10,37 @@ import SwiftUI
 struct AIView: View {
     @EnvironmentObject var appState: AppState
     @StateObject var viewModel: AIViewModel
-
     @State private var showMap = false
 
     var body: some View {
         VStack(spacing: 20) {
-            Button("지도에서 위치 선택") {
-                showMap = true
-            }
+            // ✅ 현재 위치 텍스트
+            Text("📍 현재 위치: \(viewModel.currentAddress)")
+                .font(.headline)
+                .padding(.top)
 
-            if let location = viewModel.selectedLocation {
-                Text("선택한 위치: \(location.latitude), \(location.longitude)")
-                    .padding()
+            // ✅ 목적지 입력 영역
+            HStack {
+                TextField("목적지를 선택하세요", text: $viewModel.destinationAddress)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .disabled(true)
+
+                Button(action: {
+                    showMap = true
+                }) {
+                    Image(systemName: "globe")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .padding(8)
+                }
             }
+            .padding(.horizontal)
+
+            Spacer()
         }
         .sheet(isPresented: $showMap) {
             MapPickerView { coordinate in
-                viewModel.selectedLocation = coordinate
+                viewModel.setDestination(from: coordinate)
             }
         }
     }
