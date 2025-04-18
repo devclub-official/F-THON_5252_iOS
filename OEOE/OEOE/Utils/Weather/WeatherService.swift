@@ -44,26 +44,19 @@ func fetchWeather(lat: Double, lon: Double, completion: @escaping (Result<[Forec
 
 func extractWeatherData(from weatherResponse: WeatherResponse) -> [ForecastEntry] {
     let currentTime = Date().timeIntervalSince1970
-    let targetOffsets: [TimeInterval] = [3, 6, 9].map { $0 * 3600 }
-    let margin: TimeInterval = 3600 * 1.5 // ±1.5시간 허용
+    let threeHourInterval: TimeInterval = 3 * 3600
+    let nextHour = ceil(currentTime / threeHourInterval) * threeHourInterval
+    let targetTimes = [0, 1, 2].map { nextHour + (threeHourInterval * Double($0)) }
 
     var result: [ForecastEntry] = []
-    var usedTimestamps: Set<TimeInterval> = []
 
-    for offset in targetOffsets {
-        let targetTime = currentTime + offset
-        
-        // 가장 가까운 항목 중 아직 선택되지 않은 것만 필터링
-        if let closest = weatherResponse.list
-            .filter({ !usedTimestamps.contains($0.dt) })
-            .min(by: { abs($0.dt - targetTime) < abs($1.dt - targetTime) }),
-           abs(closest.dt - targetTime) <= margin {
-            
-            result.append(closest)
-            usedTimestamps.insert(closest.dt)
+    for target in targetTimes {
+        if let match = weatherResponse.list.first(where: { abs($0.dt - target) < 60 }) {
+            result.append(match)
         }
     }
 
     return result
 }
+
 
