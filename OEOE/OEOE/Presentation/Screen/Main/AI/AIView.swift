@@ -14,12 +14,11 @@ struct AIView: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            // ✅ 현재 위치 텍스트
+
             Text("📍 현재 위치: \(viewModel.currentAddress)")
                 .font(.headline)
                 .padding(.top)
 
-            // ✅ 목적지 입력 영역
             HStack {
                 TextField("목적지를 선택하세요", text: $viewModel.destinationAddress)
                     .textFieldStyle(RoundedBorderTextFieldStyle())

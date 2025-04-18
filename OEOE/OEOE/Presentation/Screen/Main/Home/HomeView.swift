@@ -13,10 +13,9 @@ struct HomeView: View {
 
     var body: some View {
         VStack(spacing: 30) {
-            Text(viewModel.desc)
+            Text(viewModel.currentAddress)
                 .font(.headline)
                 .foregroundStyle(Color.red)
-            
             
             Button {
                 appState.changeTab(.ai)
@@ -27,10 +26,6 @@ struct HomeView: View {
             .padding()
             .border(Color.red)
          
-        }
-        .onAppear {
-            
-            //locationManager.locationManager.requestWhenInUseAuthorization()
         }
     }
     
