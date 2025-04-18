@@ -14,9 +14,22 @@
 		F18C25122DB292DD0054A448 /* OEOE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OEOE.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		F18C286E2DB2F6010054A448 /* Exceptions for "OEOE" folder in "OEOE" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = F18C25112DB292DD0054A448 /* OEOE */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		F18C25142DB292DD0054A448 /* OEOE */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				F18C286E2DB2F6010054A448 /* Exceptions for "OEOE" folder in "OEOE" target */,
+			);
 			path = OEOE;
 			sourceTree = "<group>";
 		};
@@ -264,6 +277,7 @@
 				DEVELOPMENT_TEAM = N5VDCP55PT;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = OEOE/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "\"정확한 날씨 정보를 알기 위하여 위치정보 접근이 필요합니다.\"";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"정확한 날씨 정보를 알기 위하여 위치정보 접근이 필요합니다.\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -300,6 +314,7 @@
 				DEVELOPMENT_TEAM = N5VDCP55PT;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = OEOE/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "\"정확한 날씨 정보를 알기 위하여 위치정보 접근이 필요합니다.\"";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"정확한 날씨 정보를 알기 위하여 위치정보 접근이 필요합니다.\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
