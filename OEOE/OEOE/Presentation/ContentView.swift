@@ -11,6 +11,11 @@ struct ContentView: View {
     @EnvironmentObject var appState: AppState
     
     var body: some View {
-        MainTabView()
+        if appState.isOnboarding {
+            MainTabView()
+        } else {
+            OnboardingView()
+        }
+        
     }
 }

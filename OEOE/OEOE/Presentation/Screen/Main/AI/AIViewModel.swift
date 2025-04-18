@@ -12,6 +12,7 @@ final class AIViewModel: ObservableObject {
     @Published var desc: String = ""
     @Published var testData: TestResponse?
     
+    
     init() {
         desc = "AI"
     }
