@@ -40,6 +40,15 @@ struct AIView: View {
             
             ScrollView {
                 VStack(spacing: 20) {
+                    if !viewModel.lookDescription.isEmpty {
+                        Text("📝 \(viewModel.lookDescription)")
+                            .font(.subheadline)
+                            .padding()
+                            .background(Color.yellow.opacity(0.2))
+                            .cornerRadius(10)
+                            .padding(.horizontal)
+                    }
+                    
                     ForEach(viewModel.lookOptions.indices, id: \.self) { index in
                         let look = viewModel.lookOptions[index]
 
@@ -68,6 +77,22 @@ struct AIView: View {
                     }
                 }
             }
+
+            if let selectedIndex = viewModel.selectedLookIndex {
+                Button(action: {
+                    viewModel.postPopularLook()
+                }) {
+                    Text("이 코디로 확정")
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.blue)
+                        .cornerRadius(10)
+                        .padding(.horizontal)
+                }
+            }
+
+            Spacer(minLength: 20)
         }
         .sheet(isPresented: $showMap) {
             MapPickerView { coordinate in
