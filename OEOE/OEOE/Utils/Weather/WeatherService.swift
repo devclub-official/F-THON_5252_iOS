@@ -7,7 +7,6 @@
 import Foundation
 
 
-
 func fetchWeather(lat: Double, lon: Double, completion: @escaping (Result<[ForecastEntry], Error>) -> Void) {
     let apiKey = "444af1feec0ffe313778b286c76fcbec"
     let urlString = "https://api.openweathermap.org/data/2.5/forecast?lat=\(lat)&lon=\(lon)&units=metric&appid=\(apiKey)&lang=kr"
