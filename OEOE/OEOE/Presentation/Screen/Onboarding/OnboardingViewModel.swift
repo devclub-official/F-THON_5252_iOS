@@ -81,7 +81,7 @@ class OnboardingViewModel: ObservableObject {
                 self.isLoading = true
             }
             
-            try? await Task.sleep(nanoseconds: 5_000_000_000)
+            try? await Task.sleep(nanoseconds: 4_000_000_000)
             await MainActor.run {
                 self.isLoading = false
                 self.goHome = true

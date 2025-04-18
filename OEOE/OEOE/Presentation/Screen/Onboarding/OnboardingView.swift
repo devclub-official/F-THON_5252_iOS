@@ -47,6 +47,7 @@ struct OnboardingView: View {
         }
         .onChange(of: viewModel.goHome) { _, newValue in
             if newValue {
+                appState.checkOnboarding()
                 appState.isOnboarding = true
             }
         }
