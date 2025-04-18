@@ -8,6 +8,7 @@
 enum TabType {
     case home
     case ai
+    case my
     
     var title: String {
         switch self {
@@ -15,6 +16,8 @@ enum TabType {
             return "HOME"
         case .ai:
             return "AI"
+        case .my:
+            return "My"
         }
     }
 }
