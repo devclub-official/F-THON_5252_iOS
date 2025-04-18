@@ -15,10 +15,7 @@ final class HomeViewModel: ObservableObject {
     @Published var forecastEntry: [ForecastEntry] = []
     @Published var outfitRecommendations: [[ClothingType]] = []
     @Published var onboardingData: OnboardingData?
-    
-    init() {
-        homeInit()
-    }
+
     
     func homeInit(){
         onboardingData = UserDataManager.shared.loadOnboardingData()
@@ -27,13 +24,14 @@ final class HomeViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     self?.currentAddress = address ?? "위치 확인 불가"
                     self?.loadWeather(lat: location.coordinate.latitude, lon: location.coordinate.longitude)
+                    Task {
+                        await self?.getPopularLook()
+                    }
                 }
             }
         }
         
-        Task {
-            await getPopularLook()
-        }
+        
     }
  
     func loadWeather(lat: Double, lon: Double) {

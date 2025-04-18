@@ -8,10 +8,12 @@
 import Alamofire
 import Foundation
 
+struct EmptyBody: Encodable {}
+
 struct APIClient {
     static let shared = APIClient()
     private let session = Session()
-    private struct EmptyBody: Encodable {}
+    
     
     /// 단순히 Data만 받고 싶은 경우
     func requestData<T: Encodable>(
@@ -46,6 +48,8 @@ struct APIClient {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("*/*", forHTTPHeaderField: "Accept")
         
+        logInfo("🌐 [API REQUEST] \(method.rawValue.uppercased()) \(url.absoluteString)")
+        
         if let body {
             do {
                 request.httpBody = try JSONEncoder().encode(body)
@@ -65,6 +69,7 @@ struct APIClient {
                     )
                 }
                 .serializingDataAsync()
+            logResponse(url: url, responseData: response)
             return response
         } catch {
             logError("❌ [API ERROR] Request Failed - URL: \(endpoint.urlString)\n\(error)")
@@ -108,15 +113,61 @@ struct APIClient {
             try await requestDecodable(
                 endpoint: endpoint,
                 method: method,
-                body:  Optional<EmptyBody>.none,
+                body: Optional<EmptyBody>.none,
                 headers: headers,
                 parameters: parameters
             )
         }
     
+    func requestVoid<T: Encodable>(
+        endpoint: APIEndpoint,
+        method: Alamofire.HTTPMethod = .post,
+        body: T? = nil,
+        headers: HTTPHeaders? = nil,
+        parameters: [String: String]? = nil
+    ) async throws {
+        _ = try await requestData(
+            endpoint: endpoint,
+            method: method,
+            body: body,
+            headers: headers,
+            parameters: parameters
+        )
+    }
+    
+    func requestVoid(
+        endpoint: APIEndpoint,
+        method: Alamofire.HTTPMethod = .post,
+        headers: HTTPHeaders? = nil,
+        parameters: [String: String]? = nil
+    ) async throws {
+        try await requestVoid(
+            endpoint: endpoint,
+            method: method,
+            body: Optional<EmptyBody>.none,
+            headers: headers,
+            parameters: parameters
+        )
+    }
+    
 }
 
 extension APIClient {
+    
+    private func logResponse(
+        url: URL,
+        responseData: Data?
+    ) {
+        var logData: [String: Any] = ["▶️ URL": url.absoluteString]
+
+        if let data = responseData, let jsonString = String(data: data, encoding: .utf8) {
+            logData["▶️ Response Data"] = jsonString
+        } else {
+            logData["▶️ Response Data"] = "(Binary Data)"
+        }
+
+        Log.info("📩 [API RESPONSE]", logData)
+    }
 
     private func logError(_ message: String) {
         Log.error("🚨 \(message)")

@@ -15,7 +15,7 @@ enum TabType {
         case .home:
             return "HOME"
         case .ai:
-            return "AI"
+            return "Go!"
         case .my:
             return "My"
         }

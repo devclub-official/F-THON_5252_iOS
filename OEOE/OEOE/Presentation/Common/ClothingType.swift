@@ -128,3 +128,9 @@ extension ClothingType {
         }
     }
 }
+
+extension ClothingType {
+    static func fromDisplayName(_ name: String) -> ClothingType? {
+        return ClothingType.allCases.first(where: { $0.displayName == name })
+    }
+}

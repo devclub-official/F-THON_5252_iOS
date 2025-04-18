@@ -15,9 +15,14 @@ struct AIView: View {
     var body: some View {
         VStack(spacing: 20) {
 
-            Text("📍 현재 위치: \(viewModel.currentAddress)")
-                .font(.headline)
-                .padding(.top)
+            HStack {
+                Text("📍 현재 위치: \(viewModel.currentAddress)")
+                    .font(.headline)
+                    .padding(.top)
+                Spacer()
+            }
+            .padding(.horizontal)
+            
 
             HStack {
                 TextField("목적지를 선택하세요", text: $viewModel.destinationAddress)
@@ -78,7 +83,7 @@ struct AIView: View {
                 }
             }
 
-            if let selectedIndex = viewModel.selectedLookIndex {
+            if let _ = viewModel.selectedLookIndex {
                 Button(action: {
                     viewModel.postPopularLook()
                 }) {

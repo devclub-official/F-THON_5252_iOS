@@ -48,6 +48,9 @@ struct HomeView: View {
             }
             .padding()
         }
+        .onAppear {
+            viewModel.homeInit()
+        }
         
 
     }

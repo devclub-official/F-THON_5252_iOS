@@ -16,15 +16,24 @@ struct City: Codable {
 }
 struct ForecastEntry: Codable, Identifiable {
     var id: UUID { UUID() }
+
     let dt: TimeInterval
     let main: Main
     let weather: [Weather]
-    let wind: Wind // 풍속
-    let pop: Double?  // 강수 확률 (0.0 ~ 1.0)
+    let wind: Wind
+    let pop: Double?
+
+    // ✅ 추가: 문자열 시간 반환
+    var dtText: String {
+        let date = Date(timeIntervalSince1970: dt)
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        return formatter.string(from: date)
+    }
 
     struct Main: Codable {
-        let temp: Double // 온도
-        let humidity: Int // 습도
+        let temp: Double
+        let humidity: Int
     }
 
     struct Weather: Codable {
