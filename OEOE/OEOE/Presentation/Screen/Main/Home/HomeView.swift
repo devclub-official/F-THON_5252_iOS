@@ -15,6 +15,10 @@ struct HomeView: View {
         VStack(spacing: 45) {
             Text(viewModel.currentAddress)
                 .font(.headline)
+                .padding(.vertical, 12)
+                .frame(maxWidth: .infinity)
+                .multilineTextAlignment(.center)
+                .background(Color.blue.opacity(0.2))
 
             if let entry = viewModel.forecastEntry.first {
                 WeatherCardView(entry: entry)
@@ -40,5 +44,6 @@ struct HomeView: View {
             .padding(.top, 10)
         }
         .padding()
+
     }
 }
