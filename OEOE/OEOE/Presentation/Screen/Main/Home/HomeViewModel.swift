@@ -10,18 +10,18 @@ import SwiftUI
 final class HomeViewModel: ObservableObject {
      let locationHelper = LocationHelper()
 
-    @Published var desc: String = ""
-    @Published var testData: TestResponse?
     @Published var showLocationAlert = false
     @Published var currentAddress: String = ""
     @Published var forecastEntry: [ForecastEntry] = []
+    @Published var outfitRecommendations: [[ClothingType]] = []
+    @Published var onboardingData: OnboardingData?
     
     init() {
         homeInit()
     }
-
     
     func homeInit(){
+        onboardingData = UserDataManager.shared.loadOnboardingData()
         locationHelper.startUpdatingLocation { [weak self] location in
             self?.locationHelper.reverseGeocode(location: location) { address in
                 DispatchQueue.main.async {
@@ -30,6 +30,10 @@ final class HomeViewModel: ObservableObject {
                 }
             }
         }
+        
+        Task {
+            await getPopularLook()
+        }
     }
  
     func loadWeather(lat: Double, lon: Double) {
@@ -37,11 +41,55 @@ final class HomeViewModel: ObservableObject {
             switch result {
             case .success(let weatherData):
                 for weather in weatherData {
-                    self.forecastEntry.append(weather)
+
+                    DispatchQueue.main.async(execute: {
+                        self.forecastEntry.append(weather)
+                    })
+                    
                 }
             case .failure(let error):
                 print("날씨 데이터를 가져오는 데 실패했습니다: \(error)")
             }
+        }
+    }
+    
+    
+    func getPopularLook() async {
+        do {
+            let response: [String] = try await APIClient.shared.requestDecodable(
+                endpoint: .getPopularLook,
+                method: .get,
+                body: Optional<EmptyBody>.none,
+                parameters: [
+                    "gender" : gender(),
+                    "location" : currentAddress
+                ]
+            )
+            await MainActor.run {
+                self.outfitRecommendations = self.parseRecommendationResponse(response)
+            }
+        } catch {
+            Log.error(#function, error.localizedDescription)
+        }
+    }
+    
+    func parseRecommendationResponse(_ rawResponse: [String]) -> [[ClothingType]] {
+        return rawResponse.map { row in
+            row
+                .split(separator: ",")
+                .map { $0.trimmingCharacters(in: .whitespaces) }
+                .compactMap { ClothingType(rawValue: $0) }
+        }
+    }
+    
+    func gender() -> String {
+        switch onboardingData?.gender ?? "여자" {
+        case "남자":
+            return "male"
+        case "여자":
+            return "female"
+        default:
+            return "female"
         }
     }
 }
