@@ -7,28 +7,7 @@
 import Foundation
 
 
-struct WeatherResponse: Codable {
-    let timezoneOffset: Int?
-    let hourly: [HourlyWeather]
 
-    enum CodingKeys: String, CodingKey {
-        case timezoneOffset = "timezone_offset"
-        case hourly
-    }
-}
-
-struct HourlyWeather: Codable, Identifiable {
-    var id = UUID()
-    let dt: TimeInterval
-    let temp: Double // 기온
-    let weather: [WeatherDetail]
-    
-    struct WeatherDetail: Codable {
-        let description: String // 설명 약한 비 등등
-        let icon: String  // 날씨 아이콘 // https://openweathermap.org/img/wn/{icon_code}.png
-    }
-}
-=======
 func fetchWeather(lat: Double, lon: Double, completion: @escaping (Result<[ForecastEntry], Error>) -> Void) {
     let apiKey = "444af1feec0ffe313778b286c76fcbec"
     let urlString = "https://api.openweathermap.org/data/2.5/forecast?lat=\(lat)&lon=\(lon)&units=metric&appid=\(apiKey)&lang=kr"
