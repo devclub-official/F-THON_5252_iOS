@@ -6,15 +6,14 @@
 //
 
 import SwiftUI
+import CoreLocation
 
 final class AIViewModel: ObservableObject {
-    
-    @Published var desc: String = ""
-    @Published var testData: TestResponse?
-    
+    @Published var selectedLocation: CLLocationCoordinate2D?
+
     
     init() {
-        desc = "AI"
+
     }
     
     
