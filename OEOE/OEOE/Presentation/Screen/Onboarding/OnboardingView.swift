@@ -37,35 +37,21 @@ struct OnboardingView: View {
                 }
             }
 
-            // 성별 선택 버튼
             if viewModel.showGenderButtons {
                 HStack(spacing: 16) {
-                    Button(action: {
+                    Button("남자") {
                         viewModel.addUserResponse("남자")
-                    }) {
-                        Text("남자")
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
                     }
+                    .buttonStyle(GenderButtonStyle(color: .blue))
 
-                    Button(action: {
+                    Button("여자") {
                         viewModel.addUserResponse("여자")
-                    }) {
-                        Text("여자")
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.pink)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
                     }
+                    .buttonStyle(GenderButtonStyle(color: .pink))
                 }
                 .padding()
             }
 
-            // 나이 입력 필드
             if viewModel.showAgeInput {
                 HStack {
                     TextField("나이를 입력하세요", text: $ageInput)
@@ -85,6 +71,45 @@ struct OnboardingView: View {
                 .padding()
             }
         }
+        .sheet(isPresented: $viewModel.showStyleSheet) {
+            StyleSelectionSheet(styles: viewModel.fashionStyles) { selectedStyle in
+                viewModel.selectStyle(selectedStyle)
+            }
+        }
         .navigationTitle("온보딩")
+    }
+}
+
+struct StyleSelectionSheet: View {
+    let styles: [String]
+    let onSelect: (String) -> Void
+
+    var body: some View {
+        NavigationView {
+            List(styles, id: \.self) { style in
+                Button(action: {
+                    onSelect(style)
+                }) {
+                    Text(style)
+                        .padding()
+                }
+            }
+            .navigationTitle("스타일을 선택하세요")
+            .navigationBarTitleDisplayMode(.inline)
+        }
+    }
+}
+
+struct GenderButtonStyle: ButtonStyle {
+    var color: Color
+
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .padding()
+            .frame(maxWidth: .infinity)
+            .background(color)
+            .foregroundColor(.white)
+            .cornerRadius(10)
+            .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
     }
 }
