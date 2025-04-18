@@ -12,31 +12,34 @@ struct HomeView: View {
     @StateObject var viewModel: HomeViewModel
    
     var body: some View {
-        VStack(spacing: 30) {
+        VStack {
             Text(viewModel.currentAddress)
                 .font(.headline)
-//            Text("현재 시각").font(.subheadline)
-            VStack {
-                if let entry = viewModel.forecastEntry.first {
-                    WeatherCardView(entry: entry)
-                }
+                .padding(.vertical, 12)
+                .frame(maxWidth: .infinity)
+                .multilineTextAlignment(.center)
+                .background(Color.blue.opacity(0.2))
+            if let entry = viewModel.forecastEntry.first {
+                WeatherCardView(entry: entry)
             }
-            .onAppear {
-
-                viewModel.homeInit()
-            }
-
+       
                  
             Button {
                 appState.changeTab(.ai)
             } label: {
                 Text("AI에게 옷추천 받기")
                     .foregroundStyle(Color.black)
+                  
             }
             .padding()
-            .border(Color.red)
+            .border(Color.blue)
+            .background(Color.blue.opacity(0.8))
+            .cornerRadius(15)
          
+        }     .onAppear {
+            viewModel.homeInit()
         }
+
     }
     
 }
