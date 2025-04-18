@@ -26,6 +26,7 @@ struct AIView: View {
 
                 Button(action: {
                     showMap = true
+                    
                 }) {
                     Image(systemName: "globe")
                         .resizable()
@@ -36,6 +37,37 @@ struct AIView: View {
             .padding(.horizontal)
 
             Spacer()
+            
+            ScrollView {
+                VStack(spacing: 20) {
+                    ForEach(viewModel.lookOptions.indices, id: \.self) { index in
+                        let look = viewModel.lookOptions[index]
+
+                        VStack(alignment: .leading) {
+                            HStack {
+                                Image(systemName: viewModel.selectedLookIndex == index ? "checkmark.circle.fill" : "circle")
+                                    .foregroundColor(viewModel.selectedLookIndex == index ? .blue : .gray)
+                                Text("\(index + 1)번 코디")
+                                    .font(.headline)
+                                Spacer()
+                            }
+
+                            ForEach(look, id: \.self) { item in
+                                Text("• \(item)")
+                                    .font(.subheadline)
+                                    .padding(.leading, 24)
+                            }
+                        }
+                        .padding()
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(10)
+                        .padding(.horizontal)
+                        .onTapGesture {
+                            viewModel.selectedLookIndex = index
+                        }
+                    }
+                }
+            }
         }
         .sheet(isPresented: $showMap) {
             MapPickerView { coordinate in
