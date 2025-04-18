@@ -14,7 +14,9 @@ class OnboardingViewModel: ObservableObject {
     @Published var showStyleSheet = false
     @Published var goHome: Bool = false
     @Published var isLoading = false
-
+    
+    @Published var gender: String = ""
+    @Published var age: String = ""
     let fashionStyles = ["캐주얼", "미니멀", "스트릿", "빈티지", "로맨틱", "시크", "댄디"]
 
     init() {
@@ -32,6 +34,7 @@ class OnboardingViewModel: ObservableObject {
         messages.append(ChatMessage(text: response, isBot: false))
 
         if response == "남자" || response == "여자" {
+            gender = response
             Task {
                 try? await Task.sleep(nanoseconds: 500_000_000) // 0.5초
                 await MainActor.run {
@@ -43,8 +46,9 @@ class OnboardingViewModel: ObservableObject {
         }
     }
 
-    func submitAge(_ age: String) {
-        messages.append(ChatMessage(text: age, isBot: false))
+    func submitAge(_ input: String) {
+        age = input
+        messages.append(ChatMessage(text: input, isBot: false))
         showAgeInput = false
 
         Task {
@@ -65,6 +69,11 @@ class OnboardingViewModel: ObservableObject {
             await MainActor.run {
                 self.messages.append(ChatMessage(text: "🎉 모두 설정 완료!", isBot: true))
                 self.messages.append(ChatMessage(text: "이제 너만을 위한 스타일 추천을 시작할게!", isBot: true))
+                UserDataManager.shared.saveOnboardingData(
+                    gender: self.gender,
+                    age: self.age,
+                    style: style
+                )
             }
             
             try? await Task.sleep(nanoseconds: 1_000_000_000)

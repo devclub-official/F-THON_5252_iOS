@@ -14,7 +14,11 @@ final class AppState: ObservableObject {
     @Published var isOnboarding: Bool = false
     
     
-    init() {}
+    init() {
+        // 온보딩에서 저장한 데이터를 기반으로 온보딩 여부 체크
+        let userData = UserDataManager.shared.loadOnboardingData()
+        isOnboarding = (userData != nil)
+    }
     
     // 현재 탭 변경
     func changeTab(_ type: TabType) {
