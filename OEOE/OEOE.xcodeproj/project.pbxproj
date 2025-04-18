@@ -264,6 +264,8 @@
 				DEVELOPMENT_TEAM = N5VDCP55PT;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "\"정확한 날씨 정보를 알기 위하여 위치정보 접근이 필요합니다.\"";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"정확한 날씨 정보를 알기 위하여 위치정보 접근이 필요합니다.\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -298,6 +300,8 @@
 				DEVELOPMENT_TEAM = N5VDCP55PT;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "\"정확한 날씨 정보를 알기 위하여 위치정보 접근이 필요합니다.\"";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"정확한 날씨 정보를 알기 위하여 위치정보 접근이 필요합니다.\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
