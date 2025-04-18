@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		F18C26752DB2A4300054A448 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = F18C26742DB2A4300054A448 /* Alamofire */; };
-		F18C26772DB2A4300054A448 /* AlamofireDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = F18C26762DB2A4300054A448 /* AlamofireDynamic */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,7 +28,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F18C26752DB2A4300054A448 /* Alamofire in Frameworks */,
-				F18C26772DB2A4300054A448 /* AlamofireDynamic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,7 +71,6 @@
 			name = OEOE;
 			packageProductDependencies = (
 				F18C26742DB2A4300054A448 /* Alamofire */,
-				F18C26762DB2A4300054A448 /* AlamofireDynamic */,
 			);
 			productName = OEOE;
 			productReference = F18C25122DB292DD0054A448 /* OEOE.app */;
@@ -363,11 +360,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F18C26732DB2A4300054A448 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
-		};
-		F18C26762DB2A4300054A448 /* AlamofireDynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F18C26732DB2A4300054A448 /* XCRemoteSwiftPackageReference "Alamofire" */;
-			productName = AlamofireDynamic;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
