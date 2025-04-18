@@ -13,6 +13,7 @@ class OnboardingViewModel: ObservableObject {
     @Published var showAgeInput = false
     @Published var showStyleSheet = false
     @Published var goHome: Bool = false
+    @Published var isLoading = false
 
     let fashionStyles = ["캐주얼", "미니멀", "스트릿", "빈티지", "로맨틱", "시크", "댄디"]
 
@@ -65,9 +66,15 @@ class OnboardingViewModel: ObservableObject {
                 self.messages.append(ChatMessage(text: "🎉 모두 설정 완료!", isBot: true))
                 self.messages.append(ChatMessage(text: "이제 너만을 위한 스타일 추천을 시작할게!", isBot: true))
             }
-
+            
             try? await Task.sleep(nanoseconds: 1_000_000_000)
             await MainActor.run {
+                self.isLoading = true
+            }
+            
+            try? await Task.sleep(nanoseconds: 5_000_000_000)
+            await MainActor.run {
+                self.isLoading = false
                 self.goHome = true
             }
         }

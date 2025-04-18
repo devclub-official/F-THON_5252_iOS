@@ -13,19 +13,36 @@ struct OnboardingView: View {
     @State private var ageInput: String = ""
 
     var body: some View {
-        VStack {
-            ScrollView {
-                ForEach(viewModel.messages) { message in
-                    messageBubble(message)
+        ZStack {
+            VStack {
+                ScrollView {
+                    ForEach(viewModel.messages) { message in
+                        messageBubble(message)
+                    }
                 }
-            }
 
-            if viewModel.showGenderButtons {
-                genderSelectionButtons
-            }
+                if viewModel.showGenderButtons {
+                    genderSelectionButtons
+                }
 
-            if viewModel.showAgeInput {
-                ageInputField
+                if viewModel.showAgeInput {
+                    ageInputField
+                }
+                
+            }
+            
+            if viewModel.isLoading {
+                Color.black.opacity(0.5)
+                    .ignoresSafeArea()
+
+                VStack(spacing: 20) {
+                    Text("당신에게 딱 맞는 스타일을 찾고 있어요…")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                }
+                .padding()
+                .background(Color.black.opacity(0.8))
+                .cornerRadius(16)
             }
         }
         .onChange(of: viewModel.goHome) { _, newValue in
@@ -67,21 +84,21 @@ struct OnboardingView: View {
     // MARK: - 성별 선택 버튼
     private var genderSelectionButtons: some View {
         HStack(spacing: 16) {
-            genderButton(title: "남자", color: .blue)
-            genderButton(title: "여자", color: .pink)
+            genderButton(title: "남자")
+            genderButton(title: "여자")
         }
         .padding()
     }
 
-    private func genderButton(title: String, color: Color) -> some View {
+    private func genderButton(title: String) -> some View {
         Button(action: {
             viewModel.addUserResponse(title)
         }) {
             Text(title)
                 .padding()
                 .frame(maxWidth: .infinity)
-                .background(color)
-                .foregroundColor(.white)
+                .background(Color(hex: "#D9D9D9"))
+                .foregroundColor(.black)
                 .cornerRadius(10)
         }
     }
@@ -94,14 +111,17 @@ struct OnboardingView: View {
                 .padding()
                 .background(Color(.systemGray6))
                 .cornerRadius(10)
-
-            Button("입력") {
+            
+            Button(action: {
                 if !ageInput.isEmpty {
                     viewModel.submitAge(ageInput)
                     ageInput = ""
                 }
-            }
-            .padding(.horizontal)
+            }) {
+                Text("입력")
+                    .foregroundColor(.black)
+            }.padding(.horizontal)
+
         }
         .padding()
     }
