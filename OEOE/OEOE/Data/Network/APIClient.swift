@@ -11,6 +11,7 @@ import Foundation
 struct APIClient {
     static let shared = APIClient()
     private let session = Session()
+    private struct EmptyBody: Encodable {}
     
     /// 단순히 Data만 받고 싶은 경우
     func requestData<T: Encodable>(
@@ -95,6 +96,23 @@ struct APIClient {
             throw NetworkError.decodingFailed
         }
     }
+    
+    
+    /// body가 없는
+    func requestDecodable<T: Decodable>(
+            endpoint: APIEndpoint,
+            method: Alamofire.HTTPMethod = .get,
+            headers: HTTPHeaders? = nil,
+            parameters: [String: String]? = nil
+        ) async throws -> T {
+            try await requestDecodable(
+                endpoint: endpoint,
+                method: method,
+                body:  Optional<EmptyBody>.none,
+                headers: headers,
+                parameters: parameters
+            )
+        }
     
 }
 

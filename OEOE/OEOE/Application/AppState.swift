@@ -13,8 +13,7 @@ final class AppState: ObservableObject {
     @Published var selectedTab: TabType = .home
     
     
-    init() {
-    }
+    init() {}
     
     // 현재 탭 변경
     func changeTab(_ type: TabType) {
