@@ -41,22 +41,32 @@ func fetchWeather(lat: Double, lon: Double, completion: @escaping (Result<[Forec
     task.resume()
 }
 
-
 func extractWeatherData(from weatherResponse: WeatherResponse) -> [ForecastEntry] {
     let currentTime = Date().timeIntervalSince1970
     let threeHourInterval: TimeInterval = 3 * 3600
     let nextHour = ceil(currentTime / threeHourInterval) * threeHourInterval
-    let targetTimes = [0, 1, 2].map { nextHour + (threeHourInterval * Double($0)) }
+    let targetTimes = [-1, 0, 1, 2].map { nextHour + (threeHourInterval * Double($0)) }
 
     var result: [ForecastEntry] = []
 
     for target in targetTimes {
-        if let match = weatherResponse.list.first(where: { abs($0.dt - target) < 60 }) {
-            result.append(match)
+        if let closest = weatherResponse.list.min(by: { abs($0.dt - target) < abs($1.dt - target) }) {
+            result.append(closest)
         }
     }
 
     return result
 }
 
-
+func fetchWeatherAsync(lat: Double, lon: Double) async throws -> [ForecastEntry] {
+    return try await withCheckedThrowingContinuation { continuation in
+        fetchWeather(lat: lat, lon: lon) { result in
+            switch result {
+            case .success(let entries):
+                continuation.resume(returning: entries)
+            case .failure(let error):
+                continuation.resume(throwing: error)
+            }
+        }
+    }
+}

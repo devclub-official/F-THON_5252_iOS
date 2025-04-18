@@ -15,9 +15,14 @@ struct AIView: View {
     var body: some View {
         VStack(spacing: 20) {
 
-            Text("📍 현재 위치: \(viewModel.currentAddress)")
-                .font(.headline)
-                .padding(.top)
+            HStack {
+                Text("📍 현재 위치: \(viewModel.currentAddress)")
+                    .font(.headline)
+                    .padding(.top)
+                Spacer()
+            }
+            .padding(.horizontal)
+            
 
             HStack {
                 TextField("목적지를 선택하세요", text: $viewModel.destinationAddress)
@@ -26,6 +31,7 @@ struct AIView: View {
 
                 Button(action: {
                     showMap = true
+                    
                 }) {
                     Image(systemName: "globe")
                         .resizable()
@@ -36,6 +42,62 @@ struct AIView: View {
             .padding(.horizontal)
 
             Spacer()
+            
+            ScrollView {
+                VStack(spacing: 20) {
+                    if !viewModel.lookDescription.isEmpty {
+                        Text("📝 \(viewModel.lookDescription)")
+                            .font(.subheadline)
+                            .padding()
+                            .background(Color.yellow.opacity(0.2))
+                            .cornerRadius(10)
+                            .padding(.horizontal)
+                    }
+                    
+                    ForEach(viewModel.lookOptions.indices, id: \.self) { index in
+                        let look = viewModel.lookOptions[index]
+
+                        VStack(alignment: .leading) {
+                            HStack {
+                                Image(systemName: viewModel.selectedLookIndex == index ? "checkmark.circle.fill" : "circle")
+                                    .foregroundColor(viewModel.selectedLookIndex == index ? .blue : .gray)
+                                Text("\(index + 1)번 코디")
+                                    .font(.headline)
+                                Spacer()
+                            }
+
+                            ForEach(look, id: \.self) { item in
+                                Text("• \(item)")
+                                    .font(.subheadline)
+                                    .padding(.leading, 24)
+                            }
+                        }
+                        .padding()
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(10)
+                        .padding(.horizontal)
+                        .onTapGesture {
+                            viewModel.selectedLookIndex = index
+                        }
+                    }
+                }
+            }
+
+            if let _ = viewModel.selectedLookIndex {
+                Button(action: {
+                    viewModel.postPopularLook()
+                }) {
+                    Text("이 코디로 확정")
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.blue)
+                        .cornerRadius(10)
+                        .padding(.horizontal)
+                }
+            }
+
+            Spacer(minLength: 20)
         }
         .sheet(isPresented: $showMap) {
             MapPickerView { coordinate in
