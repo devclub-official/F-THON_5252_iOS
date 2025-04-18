@@ -10,12 +10,13 @@ import SwiftUI
 struct HomeView: View {
     @EnvironmentObject var appState: AppState
     @StateObject var viewModel: HomeViewModel
-    
+
     var body: some View {
         VStack(spacing: 30) {
             Text(viewModel.desc)
                 .font(.headline)
                 .foregroundStyle(Color.red)
+            
             
             Button {
                 appState.changeTab(.ai)
@@ -25,8 +26,14 @@ struct HomeView: View {
             }
             .padding()
             .border(Color.red)
-
+         
         }
-        
+        .onAppear {
+            
+            //locationManager.locationManager.requestWhenInUseAuthorization()
+        }
     }
+    
 }
+
+
